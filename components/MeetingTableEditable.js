@@ -66,8 +66,8 @@ export default function MeetingTableEditable({ meetingData, isEdit }) {
             <th>#</th>
             <th>Description</th>
             <th>Meeting With</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Venue</th>
+            <th>Time</th>
             <th>Status</th>
             {isEdit && <th>Actions</th>}
           </tr>
@@ -78,12 +78,13 @@ export default function MeetingTableEditable({ meetingData, isEdit }) {
               <th scope="row">{index + 1}</th>
               <td>{meeting.description}</td>
               <td>{meeting.meeting_with}</td>
+              <td>{meeting.venue}</td>
+
               <td>
                 {dayjs(meeting.time_start.seconds * 1000).format(
                   "DD/MM/YYYY hh:mm A"
                 )}
-              </td>
-              <td>
+                -
                 {dayjs(meeting.time_end.seconds * 1000).format(
                   "DD/MM/YYYY hh:mm A"
                 )}
