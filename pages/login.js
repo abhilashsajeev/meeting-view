@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
 
@@ -21,8 +21,10 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const { logInWithEmailAndPassword } = useAuth();
-
+  const { authUser, logInWithEmailAndPassword } = useAuth();
+  useEffect(() => {
+    if (authUser) Router.push("/logged_in");
+  }, [authUser]);
   const onSubmit = (event) => {
     setError(null);
     logInWithEmailAndPassword(email, password)
