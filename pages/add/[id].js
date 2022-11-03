@@ -74,6 +74,7 @@ export const AddNewMeeting = ({ postData, userData }) => {
       if (data.uid) {
         let updateData = { ...data };
         delete updateData.id;
+        console.log("data before update", updateData);
         await updateExistingTask(data.id, updateData);
         //
       } else {
