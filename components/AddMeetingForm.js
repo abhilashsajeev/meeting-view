@@ -21,15 +21,16 @@ export default function AddMeetingForm({ user }) {
         <RHFInput
           control={control}
           errors={errors}
-          name="meeting_with"
-          label="Meeting With"
+          name="description"
+          label="Description of Event"
         />
         <RHFInput
           control={control}
           errors={errors}
-          name="description"
-          label="Description"
+          name="remarks"
+          label="Remarks"
         />
+
         <RHFInput
           control={control}
           errors={errors}
@@ -47,13 +48,6 @@ export default function AddMeetingForm({ user }) {
           errors={errors}
           name="time_start"
           label="Start Time"
-          inputType="datetime-local"
-        />
-        <RHFInput
-          control={control}
-          errors={errors}
-          name="time_end"
-          label="End Time"
           inputType="datetime-local"
         />
       </Row>
