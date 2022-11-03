@@ -27,9 +27,6 @@ export default function MeetingTableEditable({ meetingData, isEdit }) {
     resetObj.time_start = toIsoString(
       dayjs.unix(resetObj.time_start.seconds).$d
     ).slice(0, 16);
-    resetObj.time_end = toIsoString(
-      dayjs.unix(resetObj.time_end.seconds).$d
-    ).slice(0, 16);
 
     reset(resetObj);
   };
