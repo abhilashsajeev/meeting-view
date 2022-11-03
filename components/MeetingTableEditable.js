@@ -4,34 +4,9 @@ import timezone from "dayjs/plugin/timezone";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useFormContext } from "react-hook-form";
 import { deleteTask } from "../lib/saveToFireStore";
+import { toIsoString } from "../lib/fetchFromFireStore";
 
 dayjs.extend(timezone);
-
-function toIsoString(date) {
-  var tzo = -date.getTimezoneOffset(),
-    dif = tzo >= 0 ? "+" : "-",
-    pad = function (num) {
-      return (num < 10 ? "0" : "") + num;
-    };
-
-  return (
-    date.getFullYear() +
-    "-" +
-    pad(date.getMonth() + 1) +
-    "-" +
-    pad(date.getDate()) +
-    "T" +
-    pad(date.getHours()) +
-    ":" +
-    pad(date.getMinutes()) +
-    ":" +
-    pad(date.getSeconds()) +
-    dif +
-    pad(Math.floor(Math.abs(tzo) / 60)) +
-    ":" +
-    pad(Math.abs(tzo) % 60)
-  );
-}
 
 export default function MeetingTableEditable({ meetingData, isEdit }) {
   const { reset } = useFormContext();
@@ -65,9 +40,10 @@ export default function MeetingTableEditable({ meetingData, isEdit }) {
           <tr>
             <th>#</th>
             <th>Description</th>
-            <th>Meeting With</th>
+            <th>Date and Time</th>
+
             <th>Venue</th>
-            <th>Time</th>
+            <th>Remarks</th>
             <th>Status</th>
             {isEdit && <th>Actions</th>}
           </tr>
@@ -77,19 +53,13 @@ export default function MeetingTableEditable({ meetingData, isEdit }) {
             <tr key={index}>
               <th scope="row">{index + 1}</th>
               <td>{meeting.description}</td>
-              <td>{meeting.meeting_with}</td>
-              <td>{meeting.venue}</td>
-
               <td>
                 {dayjs(meeting.time_start.seconds * 1000).format(
                   "DD/MM/YYYY hh:mm A"
                 )}
-                -
-                {dayjs(meeting.time_end.seconds * 1000).format(
-                  "DD/MM/YYYY hh:mm A"
-                )}
               </td>
-
+              <td>{meeting.venue}</td>
+              <td>{meeting.remarks}</td>
               <td>{meeting.status}</td>
               {isEdit && (
                 <td>

@@ -1,0 +1,11 @@
+.trlarge {
+  font-size: 1.5em;
+  color: #04da04 !important;
+  background-color: black;
+}
+
+.trnormal {
+  font-size: 1em;
+  color: black !important;
+  background-color: white;
+}

@@ -3,15 +3,42 @@ import {
   getAllUsers,
   getMeetingDataForUserId,
   getUserForId,
+  getSnapShotOfMeetingDataForUserId,
 } from "../../lib/fetchFromFireStore";
 import dayjs from "dayjs";
 import { Navbar, NavbarBrand } from "reactstrap";
 import taskCss from "../../styles/task.module.css";
 import MeetingTable from "../../components/MeetingTable";
+import { useEffect, useState } from "react";
 
 export default function MeetingData({ postData, userData }) {
-  const meetingData = JSON.parse(postData);
+  const meetResult = JSON.parse(postData);
+  const [meetingData, setMeetingData] = useState(meetResult);
   const user = JSON.parse(userData);
+  useEffect(() => {
+    var unsubscribe = () => {};
+    (async () => {
+      unsubscribe = await getSnapShotOfMeetingDataForUserId(
+        user.uid,
+        (querySnapshot) => {
+          let meetings = [];
+          querySnapshot.forEach((doc) => {
+            console.log(doc.id, "=>", doc.data());
+            let meetingObj = {
+              id: doc.id,
+              ...doc.data(),
+            };
+            meetings.push(meetingObj);
+          });
+          setMeetingData(meetings);
+        }
+      );
+    })();
+    return () => {
+      unsubscribe();
+    };
+  }, [user.id]);
+
   return (
     <>
       <Head>
