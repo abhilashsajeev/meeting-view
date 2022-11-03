@@ -13,7 +13,14 @@ import { useEffect, useState } from "react";
 
 export default function MeetingData({ postData, userData }) {
   const meetResult = JSON.parse(postData);
-  const [meetingData, setMeetingData] = useState(meetResult);
+  const current = meetResult.filter((item) => {
+    return dayjs(item.time_start.seconds * 1000).isSame(dayjs(), "day");
+  });
+  const upcoming = meetResult.filter((item) => {
+    return dayjs(item.time_start.seconds * 1000).isAfter(dayjs(), "day");
+  });
+  const [currentMeetingData, setCurrentMeetingData] = useState(current);
+  const [upcomingMeetingData, setUpcomingMeetingData] = useState(upcoming);
   const user = JSON.parse(userData);
   useEffect(() => {
     var unsubscribe = () => {};
@@ -30,7 +37,17 @@ export default function MeetingData({ postData, userData }) {
             };
             meetings.push(meetingObj);
           });
-          setMeetingData(meetings);
+          const current = meetings.filter((item) => {
+            return dayjs(item.time_start.seconds * 1000).isSame(dayjs(), "day");
+          });
+          const upcoming = meetings.filter((item) => {
+            return dayjs(item.time_start.seconds * 1000).isAfter(
+              dayjs(),
+              "day"
+            );
+          });
+          setCurrentMeetingData(current);
+          setUpcomingMeetingData(upcoming);
         }
       );
     })();
@@ -50,9 +67,12 @@ export default function MeetingData({ postData, userData }) {
       <div className={taskCss.centerText}>
         <h3>Todays Date {dayjs().format("DD/MM/YYYY")}</h3>
       </div>
-      <MeetingTable meetingData={meetingData} />
+      <MeetingTable meetingData={current} />
 
-      <div></div>
+      <div className={taskCss.centerText}>
+        <h3>Upcoming Meetings</h3>
+      </div>
+      <MeetingTable meetingData={upcoming} />
     </>
   );
 }
