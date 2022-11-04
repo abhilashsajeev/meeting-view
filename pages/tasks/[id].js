@@ -46,6 +46,7 @@ export default function MeetingData({ postData, userData }) {
               "day"
             );
           });
+          console.log("upcoming", upcoming);
           setCurrentMeetingData(current);
           setUpcomingMeetingData(upcoming);
         }
@@ -67,12 +68,12 @@ export default function MeetingData({ postData, userData }) {
       <div className={taskCss.centerText}>
         <h3>Todays Date {dayjs().format("DD/MM/YYYY")}</h3>
       </div>
-      <MeetingTable meetingData={current} />
+      <MeetingTable meetingData={currentMeetingData} />
 
       <div className={taskCss.centerText}>
         <h3>Upcoming Meetings</h3>
       </div>
-      <MeetingTable meetingData={upcoming} />
+      <MeetingTable meetingData={upcomingMeetingData} />
     </>
   );
 }
