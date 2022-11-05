@@ -9,6 +9,18 @@ export default function MeetingTable({ meetingData }) {
     if (dayjs(datevar).isSame(dayjs(), "day")) {
       return styles.trlarge;
     }
+    // if next day is sunday then make monday large else next day large
+    if (dayjs().add(1, "day").day() === 0) {
+      // if next day sunday
+      if (dayjs().add(2, "day").isSame(dayjs(datevar), "day")) {
+        return styles.trmedium;
+      }
+    } else {
+      if (dayjs().add(1, "day").isSame(dayjs(datevar), "day")) {
+        return styles.trmedium;
+      }
+    }
+
     return "trnormal";
   };
   return (

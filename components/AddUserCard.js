@@ -14,11 +14,12 @@ const AddUserCard = ({ item }) => {
           <p>{item.designation}</p>
         </CardText>
         <Button
+          color="success"
           onClick={() => {
             handleNavigate(item.uid);
           }}
         >
-          View Tasks
+          ADD NEW TASK
         </Button>
       </Card>
     </Col>

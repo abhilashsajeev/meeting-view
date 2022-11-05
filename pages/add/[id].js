@@ -25,7 +25,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { v4 as uuidv4 } from "uuid";
 import { saveNewTask, updateExistingTask } from "../../lib/saveToFireStore";
 import MeetingTableEditable from "../../components/MeetingTableEditable";
-
+import styles from "../../styles/NavBarNew.module.css";
 export const AddNewMeeting = ({ postData, userData }) => {
   const meet = JSON.parse(postData);
   const [meetingData, setMeetingData] = useState(meet);
@@ -99,7 +99,7 @@ export const AddNewMeeting = ({ postData, userData }) => {
       <Head>
         <title>Add New Meating</title>
       </Head>
-      <Navbar color="warning" dark>
+      <Navbar className={styles.header_gradient} dark>
         <NavbarBrand href="/">Add New Meeting For {user.name} </NavbarBrand>
       </Navbar>
       <FormProvider {...methods}>
@@ -138,6 +138,7 @@ export async function getStaticProps({ params }) {
       userData,
       postData,
     },
+    revalidate: 10,
   };
 }
 
