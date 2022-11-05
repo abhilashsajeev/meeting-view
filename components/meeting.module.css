@@ -1,6 +1,12 @@
 .trlarge {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   color: #04da04 !important;
+  background-color: black;
+}
+
+.trmedium {
+  font-size: 1.3rem;
+  color: rgb(179, 187, 247) !important;
   background-color: black;
 }
 

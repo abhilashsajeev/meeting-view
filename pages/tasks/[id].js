@@ -6,10 +6,12 @@ import {
   getSnapShotOfMeetingDataForUserId,
 } from "../../lib/fetchFromFireStore";
 import dayjs from "dayjs";
-import { Navbar, NavbarBrand } from "reactstrap";
+import { Alert, Navbar, NavbarBrand } from "reactstrap";
 import taskCss from "../../styles/task.module.css";
 import MeetingTable from "../../components/MeetingTable";
 import { useEffect, useState } from "react";
+import { BiStopwatch } from "react-icons/bi";
+import styles from "../../styles/NavBarNew.module.css";
 
 export default function MeetingData({ postData, userData }) {
   const meetResult = JSON.parse(postData);
@@ -62,16 +64,29 @@ export default function MeetingData({ postData, userData }) {
       <Head>
         <title>Meeting Data</title>
       </Head>
-      <Navbar color="warning" dark>
+      <Navbar className={styles.header_gradient} dark>
         <NavbarBrand href="/">Meeting Schedule for {user.name} </NavbarBrand>
       </Navbar>
       <div className={taskCss.centerText}>
-        <h3>Todays Date {dayjs().format("DD/MM/YYYY")}</h3>
+        <h3>
+          <u>Todays Date {dayjs().format("DD/MM/YYYY")}</u>
+        </h3>
       </div>
-      <MeetingTable meetingData={currentMeetingData} />
+      {currentMeetingData.length > 0 && (
+        <MeetingTable meetingData={currentMeetingData} />
+      )}
+      {currentMeetingData.length === 0 && (
+        <Alert color="primary" className={taskCss.centerText}>
+          <h5>
+            <BiStopwatch size={30} /> No Scheduled Events for Today
+          </h5>
+        </Alert>
+      )}
 
       <div className={taskCss.centerText}>
-        <h3>Upcoming Meetings</h3>
+        <h3>
+          <u>Upcoming Meetings</u>
+        </h3>
       </div>
       <MeetingTable meetingData={upcomingMeetingData} />
     </>
@@ -97,5 +112,6 @@ export async function getStaticProps({ params }) {
       userData,
       postData,
     },
+    revalidate: 10,
   };
 }
