@@ -5,6 +5,7 @@ import { getAllUsersData } from "../lib/fetchFromFireStore";
 
 import { Container, Row, Col, Button, Navbar, NavbarBrand } from "reactstrap";
 import AddUserCard from "../components/AddUserCard";
+import styles from "../styles/NavBarNew.module.css";
 
 const LoggedIn = () => {
   const [users, setUsers] = useState([]);
@@ -22,7 +23,7 @@ const LoggedIn = () => {
 
   return (
     <>
-      <Navbar color="warning" dark>
+      <Navbar className={styles.header_gradient} dark>
         <NavbarBrand>Add Meeting for</NavbarBrand>
       </Navbar>
       <Container>
