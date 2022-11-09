@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Router from "next/router";
 import { useAuth } from "../context/AuthUserContext";
 import { getAllUsersData } from "../lib/fetchFromFireStore";
-
+import Head from "next/head";
 import { Container, Row, Col, Button, Navbar, NavbarBrand } from "reactstrap";
 import AddUserCard from "../components/AddUserCard";
 import styles from "../styles/NavBarNew.module.css";
@@ -23,6 +23,10 @@ const LoggedIn = () => {
 
   return (
     <>
+      <Head>
+        <title> Add Meeting for Users </title>
+        <meta name="description" content="Add Meeting for Users" />
+      </Head>
       <Navbar className={styles.header_gradient} dark>
         <NavbarBrand>Add Meeting for</NavbarBrand>
       </Navbar>

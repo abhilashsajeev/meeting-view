@@ -10,6 +10,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import app from "../lib/firebase";
+import Head from "next/head";
 import styles from "../styles/NavBarNew.module.css";
 import { getAllUsersData } from "../lib/fetchFromFireStore";
 
@@ -44,9 +45,13 @@ const Home = ({ usersList }) => {
 
   return (
     <>
+      <Head>
+        <title>Users List</title>
+        <meta name="description" content="Users List" />
+      </Head>
       <Navbar className={styles.header_gradient} dark>
-        <NavbarBrand>Meeting View</NavbarBrand>
-        <Link className={styles.white_link} href="/login">
+        <NavbarBrand href="/">Meeting View</NavbarBrand>
+        <Link className={styles.white_link} href="/login" passHref>
           Login Page
         </Link>
       </Navbar>

@@ -97,7 +97,8 @@ export const AddNewMeeting = ({ postData, userData }) => {
   return (
     <>
       <Head>
-        <title>Add New Meating</title>
+        <title>Add New Meeting</title>
+        <meta name="description" content="Add new meeting" />
       </Head>
       <Navbar className={styles.header_gradient} dark>
         <NavbarBrand href="/">Add New Meeting For {user.name} </NavbarBrand>
