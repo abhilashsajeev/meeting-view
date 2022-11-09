@@ -11,10 +11,12 @@ import {
 } from "firebase/firestore";
 import app from "../lib/firebase";
 import styles from "../styles/NavBarNew.module.css";
+import { getAllUsersData } from "../lib/fetchFromFireStore";
 
 const db = getFirestore(app);
-const Home = () => {
-  const [users, setUsers] = useState([]);
+const Home = ({ usersList }) => {
+  const usersArray = JSON.parse(usersList);
+  const [users, setUsers] = useState(usersArray);
   useEffect(() => {
     var unsubscribe;
 
@@ -29,7 +31,10 @@ const Home = () => {
         console.log(doc.id, "=>", doc.data());
         usersData.push(doc.data());
       });
-      setUsers(usersData);
+      // if usersData is same as users, then don't update
+      if (JSON.stringify(usersData) !== JSON.stringify(users)) {
+        setUsers(usersData);
+      }
     });
 
     return () => {
@@ -54,5 +59,15 @@ const Home = () => {
     </>
   );
 };
+
+export async function getStaticProps() {
+  const usersList = await getAllUsersData();
+  return {
+    props: {
+      usersList: JSON.stringify(usersList),
+    },
+    revalidate: 10,
+  };
+}
 
 export default Home;
