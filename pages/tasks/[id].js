@@ -63,6 +63,7 @@ export default function MeetingData({ postData, userData }) {
     <>
       <Head>
         <title>Meeting Data</title>
+        <meta name="description" content="Meeting data" />
       </Head>
       <Navbar className={styles.header_gradient} dark>
         <NavbarBrand href="/">Meeting Schedule for {user.name} </NavbarBrand>
