@@ -6,12 +6,13 @@ import {
   getSnapShotOfMeetingDataForUserId,
 } from "../../lib/fetchFromFireStore";
 import dayjs from "dayjs";
-import { Alert, Navbar, NavbarBrand } from "reactstrap";
+import { Alert, Col, Navbar, NavbarBrand, Row } from "reactstrap";
 import taskCss from "../../styles/task.module.css";
 import MeetingTable from "../../components/MeetingTable";
 import { useEffect, useState } from "react";
 import { BiStopwatch } from "react-icons/bi";
 import styles from "../../styles/NavBarNew.module.css";
+import Image from "next/image";
 
 export default function MeetingData({ postData, userData }) {
   const meetResult = JSON.parse(postData);
@@ -23,6 +24,7 @@ export default function MeetingData({ postData, userData }) {
   });
   const [currentMeetingData, setCurrentMeetingData] = useState(current);
   const [upcomingMeetingData, setUpcomingMeetingData] = useState(upcoming);
+  const [today, setToday] = useState("");
   const user = JSON.parse(userData);
   useEffect(() => {
     var unsubscribe = () => {};
@@ -32,7 +34,6 @@ export default function MeetingData({ postData, userData }) {
         (querySnapshot) => {
           let meetings = [];
           querySnapshot.forEach((doc) => {
-            console.log(doc.id, "=>", doc.data());
             let meetingObj = {
               id: doc.id,
               ...doc.data(),
@@ -48,14 +49,21 @@ export default function MeetingData({ postData, userData }) {
               "day"
             );
           });
-          console.log("upcoming", upcoming);
           setCurrentMeetingData(current);
           setUpcomingMeetingData(upcoming);
         }
       );
     })();
+
+    const timer = setInterval(() => {
+      let todaysText = `${dayjs().format("HH:mm:ss A")} -
+          ${dayjs().format("DD-MMM-YYYY")} ${dayjs().format("dddd")}`;
+      setToday(todaysText);
+    }, 1000);
+
     return () => {
       unsubscribe();
+      clearInterval(timer);
     };
   }, [user.id]);
 
@@ -66,13 +74,14 @@ export default function MeetingData({ postData, userData }) {
         <meta name="description" content="Meeting data" />
       </Head>
       <Navbar className={styles.header_gradient} dark>
-        <NavbarBrand href="/">Meeting Schedule for {user.name} </NavbarBrand>
+        <NavbarBrand className={styles.navbar_link_head} href="/">
+          MEETING SCHEDULE FOR {user.name.toUpperCase()}{" "}
+        </NavbarBrand>
       </Navbar>
-      <div className={taskCss.centerText}>
-        <h3>
-          <u>Todays Date {dayjs().format("DD/MM/YYYY")}</u>
-        </h3>
-      </div>
+      <Col className={styles.timer}>
+        <span>{today}</span>
+        <Image src="/highcourt.webp" width={200} height={55} />
+      </Col>
       {currentMeetingData.length > 0 && (
         <MeetingTable meetingData={currentMeetingData} />
       )}
@@ -84,10 +93,8 @@ export default function MeetingData({ postData, userData }) {
         </Alert>
       )}
 
-      <div className={taskCss.centerText}>
-        <h3>
-          <u>Upcoming Meetings</u>
-        </h3>
+      <div className={taskCss.meetingTitle}>
+        <strong>Upcoming Meetings</strong>
       </div>
       <MeetingTable meetingData={upcomingMeetingData} />
     </>

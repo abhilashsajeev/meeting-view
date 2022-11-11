@@ -25,6 +25,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { v4 as uuidv4 } from "uuid";
 import { saveNewTask, updateExistingTask } from "../../lib/saveToFireStore";
 import MeetingTableEditable from "../../components/MeetingTableEditable";
+import { IoSaveSharp } from "react-icons/io5";
+import { BiReset } from "react-icons/bi";
 import styles from "../../styles/NavBarNew.module.css";
 export const AddNewMeeting = ({ postData, userData }) => {
   const meet = JSON.parse(postData);
@@ -74,13 +76,11 @@ export const AddNewMeeting = ({ postData, userData }) => {
       if (data.uid) {
         let updateData = { ...data };
         delete updateData.id;
-        console.log("data before update", updateData);
         await updateExistingTask(data.id, updateData);
         //
       } else {
         const uniqueID = uuidv4();
         data.uid = uniqueID;
-        console.log("data before save ", data);
         await saveNewTask(data);
       }
       setProgress(false);
@@ -110,10 +110,10 @@ export const AddNewMeeting = ({ postData, userData }) => {
         <AddMeetingForm user={user} />
         <Button color="primary" onClick={methods.handleSubmit(onSubmit)}>
           {progress && <Spinner color="danger">Loading...</Spinner>}
-          Submit
+          Submit <IoSaveSharp />
         </Button>
         <Button color="warning" onClick={resetForm}>
-          Reset
+          Reset <BiReset />
         </Button>
       </FormProvider>
     </>
