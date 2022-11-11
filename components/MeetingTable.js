@@ -27,7 +27,7 @@ export default function MeetingTable({ meetingData }) {
     <>
       <Table dark responsive>
         <thead>
-          <tr>
+          <tr className={styles.thlarge}>
             <th>#</th>
             <th>Description of Event</th>
             <th>Time</th>

@@ -29,7 +29,6 @@ const Home = ({ usersList }) => {
     unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
       let usersData = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, "=>", doc.data());
         usersData.push(doc.data());
       });
       // if usersData is same as users, then don't update

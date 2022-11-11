@@ -15,3 +15,9 @@
   color: black !important;
   background-color: white;
 }
+.thlarge {
+  font-size: 1.15rem;
+  background-color: black;
+  color: #fcfcfc;
+  text-transform: uppercase;
+}
