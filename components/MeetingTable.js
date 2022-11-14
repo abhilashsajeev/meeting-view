@@ -2,7 +2,7 @@ import { Table } from "reactstrap";
 import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import styles from "./meeting.module.css";
-import Head from "next/head";
+
 export default function MeetingTable({ meetingData }) {
   const tableRef = useRef();
 
@@ -29,14 +29,6 @@ export default function MeetingTable({ meetingData }) {
 
   return (
     <>
-      <Head>
-        <script
-          src="https://code.jquery.com/jquery-3.6.1.js"
-          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-          crossorigin="anonymous"
-        ></script>
-      </Head>
-
       <Table dark innerRef={tableRef} style={{ marginBottom: 0 }}>
         <thead>
           <tr>

@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import styles from "./meeting.module.css";
 import Head from "next/head";
+import Script from "next/script";
 export default function MeetingTableAnimated({ meetingData }) {
   const tableRef = useRef();
 
@@ -48,11 +49,11 @@ export default function MeetingTableAnimated({ meetingData }) {
   return (
     <>
       <Head>
-        <script
+        <Script
           src="https://code.jquery.com/jquery-3.6.1.js"
           integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
           crossorigin="anonymous"
-        ></script>
+        ></Script>
       </Head>
       <Table dark responsive innerRef={tableRef}>
         <thead>
