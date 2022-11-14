@@ -3,9 +3,27 @@ import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import styles from "./meeting.module.css";
 import Head from "next/head";
-export default function MeetingTable({ meetingData }) {
+export default function MeetingTableAnimated({ meetingData }) {
   const tableRef = useRef();
 
+  useEffect(() => {
+    if ($) {
+      var $el = $(".table-responsive");
+      function anim() {
+        var st = $el.scrollTop();
+        var sb = $el.prop("scrollHeight") - $el.innerHeight();
+        $el.animate({ scrollTop: st < sb / 2 ? sb : 0 }, 15000, anim);
+      }
+      function stop() {
+        $el.stop();
+      }
+      anim();
+    }
+
+    () => {
+      stop();
+    };
+  }, []);
   const getLargeClass = (meetingDate) => {
     // if date is equal to today
     const datevar = dayjs(meetingDate.seconds * 1000);
@@ -36,8 +54,7 @@ export default function MeetingTable({ meetingData }) {
           crossorigin="anonymous"
         ></script>
       </Head>
-
-      <Table dark innerRef={tableRef} style={{ marginBottom: 0 }}>
+      <Table dark responsive innerRef={tableRef}>
         <thead>
           <tr>
             <th>#</th>

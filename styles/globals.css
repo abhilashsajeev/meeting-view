@@ -2,6 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  overflow: auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -23,4 +24,21 @@ a {
     color: white;
     background: black;
   }
+}
+
+.table-responsive {
+  height: 60vh;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.table-responsive::-webkit-scrollbar {
+  display: none;
+}
+
+thead tr:nth-child(1) th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
