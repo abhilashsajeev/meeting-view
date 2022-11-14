@@ -48,13 +48,12 @@ export default function MeetingTableAnimated({ meetingData }) {
 
   return (
     <>
-      <Head>
-        <Script
-          src="https://code.jquery.com/jquery-3.6.1.js"
-          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-          crossorigin="anonymous"
-        ></Script>
-      </Head>
+      <Script
+        src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"
+      ></Script>
+
       <Table dark responsive innerRef={tableRef}>
         <thead>
           <tr>
