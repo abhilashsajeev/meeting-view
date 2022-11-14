@@ -2,13 +2,12 @@ import { Table } from "reactstrap";
 import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import styles from "./meeting.module.css";
-import Head from "next/head";
-import Script from "next/script";
+import $ from "jquery";
 export default function MeetingTableAnimated({ meetingData }) {
   const tableRef = useRef();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.$) {
+    if ($) {
       var $el = $(".table-responsive");
       function anim() {
         var st = $el.scrollTop();
@@ -48,12 +47,6 @@ export default function MeetingTableAnimated({ meetingData }) {
 
   return (
     <>
-      <Script
-        src="https://code.jquery.com/jquery-3.6.1.js"
-        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-        crossorigin="anonymous"
-      ></Script>
-
       <Table dark responsive innerRef={tableRef}>
         <thead>
           <tr>
