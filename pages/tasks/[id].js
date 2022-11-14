@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { Alert, Col, Navbar, NavbarBrand, Row } from "reactstrap";
 import taskCss from "../../styles/task.module.css";
 import MeetingTable from "../../components/MeetingTable";
+import MeetingTableAnimated from "../../components/MeetingTableAnimated";
 import { useEffect, useState } from "react";
 import { BiStopwatch } from "react-icons/bi";
 import styles from "../../styles/NavBarNew.module.css";
@@ -75,12 +76,13 @@ export default function MeetingData({ postData, userData }) {
       </Head>
       <Navbar className={styles.header_gradient} dark>
         <NavbarBrand className={styles.navbar_link_head} href="/">
-          MEETING SCHEDULE FOR {user.name.toUpperCase()}{" "}
+          {user.name.toUpperCase()}
+          {" - "}MEETING SCHEDULE
         </NavbarBrand>
       </Navbar>
       <Col className={styles.timer}>
         <span>{today}</span>
-        <Image src="/highcourt.webp" width={200} height={55} />
+        <Image src="/highcourt.webp" width={200} height={50} />
       </Col>
       {currentMeetingData.length > 0 && (
         <MeetingTable meetingData={currentMeetingData} />
@@ -96,7 +98,7 @@ export default function MeetingData({ postData, userData }) {
       <div className={taskCss.meetingTitle}>
         <strong>Upcoming Meetings</strong>
       </div>
-      <MeetingTable meetingData={upcomingMeetingData} />
+      <MeetingTableAnimated meetingData={upcomingMeetingData} />
     </>
   );
 }
