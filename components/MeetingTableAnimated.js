@@ -8,7 +8,7 @@ export default function MeetingTableAnimated({ meetingData }) {
   const tableRef = useRef();
 
   useEffect(() => {
-    if ($) {
+    if (typeof window !== "undefined" && window.$) {
       var $el = $(".table-responsive");
       function anim() {
         var st = $el.scrollTop();
