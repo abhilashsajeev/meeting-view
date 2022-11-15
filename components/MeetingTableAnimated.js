@@ -9,6 +9,13 @@ export default function MeetingTableAnimated({ meetingData }) {
   useEffect(() => {
     if ($) {
       var $el = $(".table-responsive");
+
+      let newHeight =
+        window.innerHeight -
+        $(".table-dark").clientHeight -
+        $(".navbar").clientHeight;
+      console.log("hello elemnt", newHeight);
+      $el.height(newHeight > 0 ? newHeight : 200);
       function anim() {
         var st = $el.scrollTop();
         var sb = $el.prop("scrollHeight") - $el.innerHeight();
