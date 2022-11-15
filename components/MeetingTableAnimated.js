@@ -10,12 +10,13 @@ export default function MeetingTableAnimated({ meetingData }) {
     if ($) {
       var $el = $(".table-responsive");
 
+      let darktableHeight = $(".table-dark").height();
+      let navHeight = $(".navbar").height();
       let newHeight =
         window.innerHeight -
-        $(".table-dark").clientHeight -
-        $(".navbar").clientHeight;
+        (darktableHeight + navHeight + navHeight + navHeight);
       console.log("hello elemnt", newHeight);
-      $el.height(newHeight > 0 ? newHeight : 200);
+      if (!isNaN(newHeight)) $el.height(newHeight > 0 ? newHeight : 200);
       function anim() {
         var st = $el.scrollTop();
         var sb = $el.prop("scrollHeight") - $el.innerHeight();
