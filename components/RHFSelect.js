@@ -25,8 +25,8 @@ export default function RHFSelect({
               ref={ref}
               {...fieldProps}
             >
-              {options.map((option) => (
-                <option>{option}</option>
+              {options.map((option, index) => (
+                <option key={index}>{option}</option>
               ))}
             </Input>
             {errors[name] && (
