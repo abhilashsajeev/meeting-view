@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { FormGroup, Row, Label, FormFeedback } from "reactstrap";
 import RHFInput from "./RHFInput";
+import RHFSelect from "./RHFSelect";
 
 export default function AddMeetingForm({ user }) {
   const {
@@ -31,11 +32,18 @@ export default function AddMeetingForm({ user }) {
           label="Remarks"
         />
 
-        <RHFInput
+        <RHFSelect
           control={control}
           errors={errors}
           name="status"
           label="Status"
+          options={[
+            "Pending",
+            "Completed",
+            "Cancelled",
+            "In Progress",
+            "Postponed",
+          ]}
         />
         <RHFInput
           control={control}

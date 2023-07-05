@@ -44,7 +44,7 @@ export const AddNewMeeting = ({ postData, userData }) => {
     const collectionRef = query(
       collection(db, "meeting_schedule"),
       where("user_for", "==", user.uid),
-      orderBy("time_start")
+      orderBy("time_start", "desc")
     );
     // const snapShot = await getDocs(collectionRef);
     unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {

@@ -41,8 +41,12 @@ export default function MeetingData({ postData, userData }) {
             };
             meetings.push(meetingObj);
           });
-          const current = meetings.filter((item) => {
+          let current = meetings.filter((item) => {
             return dayjs(item.time_start.seconds * 1000).isSame(dayjs(), "day");
+          });
+          // remove those with status completed
+          current = current.filter((item) => {
+            return item.status?.toLowerCase() !== "completed";
           });
           const upcoming = meetings.filter((item) => {
             return dayjs(item.time_start.seconds * 1000).isAfter(
@@ -50,6 +54,7 @@ export default function MeetingData({ postData, userData }) {
               "day"
             );
           });
+
           setCurrentMeetingData(current);
           setUpcomingMeetingData(upcoming);
         }
