@@ -57,7 +57,7 @@ export default function MeetingData({ postData, userData }) {
     })();
 
     const timer = setInterval(() => {
-      let todaysText = `${dayjs().format("HH:mm:ss A")} -
+      let todaysText = `${dayjs().format("hh:mm:ss A")} -
           ${dayjs().format("DD-MMM-YYYY")} ${dayjs().format("dddd")}`;
       setToday(todaysText);
     }, 1000);
@@ -82,7 +82,7 @@ export default function MeetingData({ postData, userData }) {
       </Navbar>
       <Col className={styles.timer}>
         <span>{today}</span>
-        <Image src="/highcourt.webp" width={200} height={50} />
+        <Image src="/highcourt.webp" width={50} height={50} />
       </Col>
       {currentMeetingData.length > 0 && (
         <MeetingTable meetingData={currentMeetingData} />

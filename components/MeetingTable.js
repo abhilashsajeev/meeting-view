@@ -6,10 +6,11 @@ import styles from "./meeting.module.css";
 export default function MeetingTable({ meetingData }) {
   const tableRef = useRef();
 
-  const getLargeClass = (meetingDate) => {
+  const getLargeClass = (meetingDate, status) => {
     // if date is equal to today
     const datevar = dayjs(meetingDate.seconds * 1000);
     if (dayjs(datevar).isSame(dayjs(), "day")) {
+      if (status.toLowerCase() === "completed") return styles.trlargestrike;
       return styles.trlarge;
     }
     // if next day is sunday then make monday large else next day large
@@ -27,6 +28,13 @@ export default function MeetingTable({ meetingData }) {
     return "trnormal";
   };
 
+  const getStrikeThroughStyle = (meeting) => {
+    if (meeting.status.toLowerCase() === "completed") {
+      return styles.strikeThrough;
+    }
+    return "";
+  };
+
   return (
     <>
       <Table dark innerRef={tableRef} style={{ marginBottom: 0 }}>
@@ -42,7 +50,11 @@ export default function MeetingTable({ meetingData }) {
         </thead>
         <tbody id="tbs">
           {meetingData.map((meeting, index) => (
-            <tr key={index} className={getLargeClass(meeting.time_start)}>
+            <tr
+              key={index}
+              className={getLargeClass(meeting.time_start, meeting.status)}
+              sx={{}}
+            >
               <th scope="row">{index + 1}</th>
               <td>{meeting.description}</td>
               <td>
