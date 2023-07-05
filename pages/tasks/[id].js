@@ -119,7 +119,10 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   // Add the "await" keyword like this:
   const user = await getUserForId(params.id);
-  const result = await getMeetingDataForUserId(params.id);
+  let result = await getMeetingDataForUserId(params.id);
+  result = result.filter((item) => {
+    return item.status?.toLowerCase() !== "completed";
+  });
   const postData = JSON.stringify(result);
   const userData = JSON.stringify(user);
   return {
