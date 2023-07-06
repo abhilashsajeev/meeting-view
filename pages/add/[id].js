@@ -13,6 +13,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  limit,
 } from "firebase/firestore";
 import { db } from "../../lib/saveToFireStore";
 import { useAuth } from "../../context/AuthUserContext";
@@ -28,6 +29,7 @@ import MeetingTableEditable from "../../components/MeetingTableEditable";
 import { IoSaveSharp } from "react-icons/io5";
 import { BiReset } from "react-icons/bi";
 import styles from "../../styles/NavBarNew.module.css";
+import dayjs from "dayjs";
 export const AddNewMeeting = ({ postData, userData }) => {
   const meet = JSON.parse(postData);
   const [meetingData, setMeetingData] = useState(meet);
@@ -44,7 +46,8 @@ export const AddNewMeeting = ({ postData, userData }) => {
     const collectionRef = query(
       collection(db, "meeting_schedule"),
       where("user_for", "==", user.uid),
-      orderBy("time_start", "desc")
+      orderBy("time_start", "desc"),
+      limit(30)
     );
     // const snapShot = await getDocs(collectionRef);
     unsubscribe = onSnapshot(collectionRef, (querySnapshot) => {
@@ -57,6 +60,13 @@ export const AddNewMeeting = ({ postData, userData }) => {
         };
         meetings.push(meetingObj);
       });
+      // sort data by date in time_start usig dayjs
+      // meetings.sort((a, b) => {
+      //   return (
+      //     dayjs(b.time_start.seconds * 1000).unix() -
+      //     dayjs(a.time_start.seconds * 1000).unix()
+      //   );
+      // });
       setMeetingData(meetings);
     });
 
