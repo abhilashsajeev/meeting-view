@@ -55,7 +55,7 @@ export default function MeetingTableAnimated({ meetingData }) {
 
   return (
     <>
-      <Table dark responsive innerRef={tableRef}>
+      <Table dark responsive innerRef={tableRef} style={{ height: "inherit" }}>
         <thead>
           <tr>
             <th>#</th>
