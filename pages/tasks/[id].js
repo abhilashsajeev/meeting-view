@@ -48,6 +48,9 @@ export default function MeetingData({ postData, userData }) {
           current = current.filter((item) => {
             return item.status?.toLowerCase() !== "completed";
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000 * 60 * 10);
           const upcoming = meetings.filter((item) => {
             return dayjs(item.time_start.seconds * 1000).isAfter(
               dayjs(),

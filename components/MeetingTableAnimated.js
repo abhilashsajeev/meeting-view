@@ -10,13 +10,16 @@ export default function MeetingTableAnimated({ meetingData }) {
     if ($) {
       var $el = $(".table-responsive");
 
-      let darktableHeight = $(".table-dark").height();
+      let darktable = document.getElementsByName("todaytable");
+      let darktableHeight =
+        darktable.length > 0 ? darktable[0].offsetHeight : 0;
+
       let navHeight = $(".navbar").height();
       let newHeight =
         window.innerHeight -
         (darktableHeight + navHeight + navHeight + navHeight);
       console.log("hello elemnt", newHeight);
-      if (!isNaN(newHeight)) $el.height(newHeight > 0 ? newHeight : 200);
+      if (!isNaN(newHeight)) $el.height(newHeight > 0 ? newHeight : "60vh");
       function anim() {
         var st = $el.scrollTop();
         var sb = $el.prop("scrollHeight") - $el.innerHeight();
@@ -54,34 +57,38 @@ export default function MeetingTableAnimated({ meetingData }) {
   };
 
   return (
-    <>
-      <Table dark responsive innerRef={tableRef} style={{ height: "inherit" }}>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Description of Event</th>
-            <th>Time</th>
-            <th>Venue</th>
-            <th>Remarks</th>
-            <th>Status</th>
+    <Table
+      dark
+      responsive
+      innerRef={tableRef}
+      name="animatedtable"
+      style={{ height: "inherit" }}
+    >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Description of Event</th>
+          <th>Time</th>
+          <th>Venue</th>
+          <th>Remarks</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="tbs">
+        {meetingData.map((meeting, index) => (
+          <tr key={index} className={getLargeClass(meeting.time_start)}>
+            <th scope="row">{index + 1}</th>
+            <td>{meeting.description}</td>
+            <td>
+              {dayjs(meeting.time_start.seconds * 1000).format("DD/MM/YYYY")}
+              {dayjs(meeting.time_start.seconds * 1000).format(" hh:mm A")}
+            </td>
+            <td>{meeting.venue}</td>
+            <td>{meeting.remarks}</td>
+            <td>{meeting.status}</td>
           </tr>
-        </thead>
-        <tbody id="tbs">
-          {meetingData.map((meeting, index) => (
-            <tr key={index} className={getLargeClass(meeting.time_start)}>
-              <th scope="row">{index + 1}</th>
-              <td>{meeting.description}</td>
-              <td>
-                {dayjs(meeting.time_start.seconds * 1000).format("DD/MM/YYYY")}
-                {dayjs(meeting.time_start.seconds * 1000).format(" hh:mm A")}
-              </td>
-              <td>{meeting.venue}</td>
-              <td>{meeting.remarks}</td>
-              <td>{meeting.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </>
+        ))}
+      </tbody>
+    </Table>
   );
 }
