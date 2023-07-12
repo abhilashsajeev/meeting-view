@@ -27,7 +27,7 @@ a {
 }
 
 .table-responsive {
-  height: 60vh;
+  max-height: 65vh;
   overflow-y: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

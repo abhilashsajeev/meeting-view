@@ -29,7 +29,12 @@ export default function MeetingTable({ meetingData }) {
 
   return (
     <>
-      <Table dark innerRef={tableRef} style={{ marginBottom: 0 }}>
+      <Table
+        dark
+        innerRef={tableRef}
+        style={{ marginBottom: 0 }}
+        name="todaytable"
+      >
         <thead>
           <tr>
             <th>#</th>
