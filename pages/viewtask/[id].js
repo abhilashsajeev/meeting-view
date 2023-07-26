@@ -100,7 +100,11 @@ export default function MeetingData({ postData, userData }) {
 
   const cardTemplate = (item) => {
     return (
-      <Card color="dark" key={item.id}>
+      <Card
+        color="dark"
+        style={{ margin: "5px", borderRadius: "10px" }}
+        key={item.id}
+      >
         <CardHeader tag="h5">
           {item.description}
           <span style={{ color: "orange" }}> at {item.venue}</span>
@@ -121,6 +125,7 @@ export default function MeetingData({ postData, userData }) {
   const cardTemplateUpcoming = (item) => {
     return (
       <Card
+        style={{ margin: "5px", borderRadius: "10px" }}
         color={getColorForNextDay(item.time_start.seconds * 1000)}
         key={item.id}
       >
@@ -172,7 +177,7 @@ export default function MeetingData({ postData, userData }) {
         <title>Meeting Data</title>
         <meta name="description" content="Meeting data" />
       </Head>
-      <Navbar sticky className={styles.header_gradient} dark>
+      <Navbar className={styles.header_gradient} dark>
         <NavbarText className={styles.nav_text_white}>{today}</NavbarText>
 
         <NavbarBrand className={styles.navbar_link_head} href="/">
@@ -207,7 +212,7 @@ export default function MeetingData({ postData, userData }) {
                   <div>{currentMeetingData.map(cardTemplate)}</div>
                 )}
               </Col>
-              <Col xs={5}>
+              <Col xs={5} style={{ background: "white" }}>
                 <Slider {...settings}>
                   {upcomingMeetingData.map(cardTemplateUpcoming)}
                 </Slider>
