@@ -125,8 +125,12 @@ export default function MeetingData({ postData, userData }) {
   const cardTemplateUpcoming = (item) => {
     return (
       <Card
-        style={{ margin: "5px", borderRadius: "10px" }}
-        color={getColorForNextDay(item.time_start.seconds * 1000)}
+        style={{
+          margin: "5px",
+          borderRadius: "10px",
+        }}
+        className={getColorForNextDay(item.time_start.seconds * 1000)}
+        // color={getColorForNextDay(item.time_start.seconds * 1000)}
         key={item.id}
       >
         <CardHeader tag="h5">
@@ -136,7 +140,7 @@ export default function MeetingData({ postData, userData }) {
         <CardBody>
           <CardTitle tag="h6">{item.remarks}</CardTitle>
           <CardSubtitle tag="h6">
-            <span style={{ color: "cyan" }}>
+            <span style={{ color: "#50c878" }}>
               {dayjs(item.time_start.seconds * 1000).format("DD/MM/YYYY")}{" "}
               {dayjs(item.time_start.seconds * 1000).format("hh:mm A")} -{" "}
             </span>
@@ -162,14 +166,14 @@ export default function MeetingData({ postData, userData }) {
     if (dayjs().add(1, "day").day() === 0) {
       // if next day sunday
       if (dayjs().add(2, "day").isSame(dayjs(datevar), "day")) {
-        return "primary";
+        return styles.card_black_2;
       }
     } else {
       if (dayjs().add(1, "day").isSame(dayjs(datevar), "day")) {
-        return "primary";
+        return styles.card_black_2;
       }
     }
-    return "secondary";
+    return styles.card_black_3;
   };
   return (
     <>
@@ -191,7 +195,7 @@ export default function MeetingData({ postData, userData }) {
       </Navbar>
       <Row
         xs="12"
-        noGutters
+        noGuttrs
         style={{
           maxHeight: maxHeight,
           color: "white",

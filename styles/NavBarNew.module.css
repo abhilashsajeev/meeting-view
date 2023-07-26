@@ -30,3 +30,13 @@
 .nav_text_white {
   color: white;
 }
+
+.card_black_2 {
+  background-color: #483c32;
+  color: white;
+}
+
+.card_black_3 {
+  background-color: #ffecd1;
+  color: black;
+}
