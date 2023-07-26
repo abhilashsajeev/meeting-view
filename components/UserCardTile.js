@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 const UserCardTile = ({ item }) => {
   const router = useRouter();
   const handleNavigate = (id) => {
-    router.push(`/tasks/${id}`);
+    router.push(`/viewtask/${id}`);
   };
   return (
     <>
