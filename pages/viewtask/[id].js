@@ -14,15 +14,13 @@ import {
   CardSubtitle,
   CardTitle,
   Col,
+  List,
   Navbar,
   NavbarBrand,
   NavbarText,
   Row,
 } from "reactstrap";
 import taskCss from "../../styles/task.module.css";
-
-import MeetingTable from "../../components/MeetingTable";
-import MeetingTableAnimated from "../../components/MeetingTableAnimated";
 import { useEffect, useState } from "react";
 import { BiStopwatch } from "react-icons/bi";
 import styles from "../../styles/NavBarNew.module.css";
@@ -43,7 +41,7 @@ export default function MeetingData({ postData, userData }) {
   });
   const [currentMeetingData, setCurrentMeetingData] = useState(current);
   const [upcomingMeetingData, setUpcomingMeetingData] = useState(upcoming);
-  const [maxHeight, setMaxHeight] = useState("560px");
+  const [maxHeight, setMaxHeight] = useState("600px");
   const [today, setToday] = useState("");
   const user = JSON.parse(userData);
   useEffect(() => {
@@ -83,11 +81,11 @@ export default function MeetingData({ postData, userData }) {
       );
     })();
     let containerFluid = document.querySelector(".container-fluid");
-    containerFluid = containerFluid.length > 0 ? containerFluid[0] : null;
     if (containerFluid) {
-      let maxheightVal = window.innerHeight - containerFluid.height;
+      let maxheightVal = window.innerHeight - containerFluid.clientHeight;
       setMaxHeight(`${maxheightVal}px`);
     }
+
     const timer = setInterval(() => {
       let todaysText = `${dayjs().format("hh:mm:ss A")} -
           ${dayjs().format("DD-MMM-YYYY")} ${dayjs().format("dddd")}`;
@@ -122,7 +120,10 @@ export default function MeetingData({ postData, userData }) {
   };
   const cardTemplateUpcoming = (item) => {
     return (
-      <Card color="secondary" key={item.id}>
+      <Card
+        color={getColorForNextDay(item.time_start.seconds * 1000)}
+        key={item.id}
+      >
         <CardHeader tag="h5">
           {item.description}
           <span style={{ color: "orange" }}> at {item.venue}</span>
@@ -149,6 +150,21 @@ export default function MeetingData({ postData, userData }) {
     vertical: true,
     autoplay: true,
     rtl: false,
+  };
+
+  const getColorForNextDay = (datevar) => {
+    // if next day is sunday then make monday large else next day large
+    if (dayjs().add(1, "day").day() === 0) {
+      // if next day sunday
+      if (dayjs().add(2, "day").isSame(dayjs(datevar), "day")) {
+        return "primary";
+      }
+    } else {
+      if (dayjs().add(1, "day").isSame(dayjs(datevar), "day")) {
+        return "primary";
+      }
+    }
+    return "secondary";
   };
   return (
     <>
@@ -182,9 +198,14 @@ export default function MeetingData({ postData, userData }) {
           upcomingMeetingData.length !== 0 && (
             <>
               <Col xs={7} style={{ background: "white" }}>
-                <Slider {...settings}>
-                  {currentMeetingData.map(cardTemplate)}
-                </Slider>
+                {currentMeetingData.length >= 4 && (
+                  <Slider {...settings}>
+                    {currentMeetingData.map(cardTemplate)}
+                  </Slider>
+                )}
+                {currentMeetingData.length < 4 && (
+                  <div>{currentMeetingData.map(cardTemplate)}</div>
+                )}
               </Col>
               <Col xs={5}>
                 <Slider {...settings}>
