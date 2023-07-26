@@ -41,7 +41,7 @@ export default function MeetingData({ postData, userData }) {
   });
   const [currentMeetingData, setCurrentMeetingData] = useState(current);
   const [upcomingMeetingData, setUpcomingMeetingData] = useState(upcoming);
-  const [maxHeight, setMaxHeight] = useState("600px");
+  const [maxHeight, setMaxHeight] = useState("630px");
   const [today, setToday] = useState("");
   const user = JSON.parse(userData);
   useEffect(() => {
@@ -144,7 +144,7 @@ export default function MeetingData({ postData, userData }) {
 
   var settings = {
     arrows: false,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplaySpeed: 2000,
     vertical: true,
@@ -198,12 +198,12 @@ export default function MeetingData({ postData, userData }) {
           upcomingMeetingData.length !== 0 && (
             <>
               <Col xs={7} style={{ background: "white" }}>
-                {currentMeetingData.length >= 4 && (
+                {currentMeetingData.length >= 5 && (
                   <Slider {...settings}>
                     {currentMeetingData.map(cardTemplate)}
                   </Slider>
                 )}
-                {currentMeetingData.length < 4 && (
+                {currentMeetingData.length < 5 && (
                   <div>{currentMeetingData.map(cardTemplate)}</div>
                 )}
               </Col>
