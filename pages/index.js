@@ -12,7 +12,6 @@ import {
 import app from "../lib/firebase";
 import Head from "next/head";
 import styles from "../styles/NavBarNew.module.css";
-import "primereact/resources/primereact.min.css";
 import { getAllUsersData } from "../lib/fetchFromFireStore";
 
 const db = getFirestore(app);
