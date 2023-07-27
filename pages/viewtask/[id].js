@@ -105,14 +105,14 @@ export default function MeetingData({ postData, userData }) {
         style={{ margin: "5px", borderRadius: "10px" }}
         key={item.id}
       >
-        <CardHeader tag="h5">
+        <CardHeader tag="h3">
           {item.description}
           <span style={{ color: "orange" }}> at {item.venue}</span>
         </CardHeader>
         <CardBody>
           <CardTitle tag="h6">{item.remarks}</CardTitle>
-          <CardSubtitle tag="h6">
-            <span style={{ color: "lightgreen" }}>
+          <CardSubtitle tag="h5">
+            <span style={{ color: "#4DC918" }}>
               Today - {dayjs(item.time_start.seconds * 1000).format("hh:mm A")}{" "}
               -{" "}
             </span>
@@ -133,14 +133,14 @@ export default function MeetingData({ postData, userData }) {
         // color={getColorForNextDay(item.time_start.seconds * 1000)}
         key={item.id}
       >
-        <CardHeader tag="h5">
+        <CardHeader tag="h4">
           {item.description}
-          <span style={{ color: "orange" }}> at {item.venue}</span>
+          <span style={{ color: "#993D00" }}> at {item.venue}</span>
         </CardHeader>
         <CardBody>
           <CardTitle tag="h6">{item.remarks}</CardTitle>
-          <CardSubtitle tag="h6">
-            <span style={{ color: "#50c878" }}>
+          <CardSubtitle tag="h5">
+            <span style={{ color: "#1B0AFF" }}>
               {dayjs(item.time_start.seconds * 1000).format("DD/MM/YYYY")}{" "}
               {dayjs(item.time_start.seconds * 1000).format("hh:mm A")} -{" "}
             </span>
@@ -195,12 +195,13 @@ export default function MeetingData({ postData, userData }) {
       </Navbar>
       <Row
         xs="12"
-        noGuttrs
+        noguttrs
         style={{
           maxHeight: maxHeight,
           color: "white",
           position: "static",
           background: "#252525",
+          overflow: "hidden",
         }}
       >
         {currentMeetingData.length !== 0 &&
