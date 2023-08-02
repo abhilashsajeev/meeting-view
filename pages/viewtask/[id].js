@@ -34,10 +34,10 @@ import "slick-carousel/slick/slick-theme.css";
 export default function MeetingData({ postData, userData }) {
   const meetResult = JSON.parse(postData);
   const current = meetResult.filter((item) => {
-    return dayjs(item.time_start.seconds * 1000).isSame(dayjs(), "day");
+    return dayjs(item.time_start).isSame(dayjs(), "day");
   });
   const upcoming = meetResult.filter((item) => {
-    return dayjs(item.time_start.seconds * 1000).isAfter(dayjs(), "day");
+    return dayjs(item.time_start).isAfter(dayjs(), "day");
   });
   const [currentMeetingData, setCurrentMeetingData] = useState(current);
   const [tomorrowMeetingData, setTomorrowMeetingData] = useState([]);
@@ -60,7 +60,7 @@ export default function MeetingData({ postData, userData }) {
             meetings.push(meetingObj);
           });
           let current = meetings.filter((item) => {
-            return dayjs(item.time_start.seconds * 1000).isSame(dayjs(), "day");
+            return dayjs(item.time_start.toDate()).isSame(dayjs(), "day");
           });
           // remove those with status completed
           current = current.filter((item) => {
@@ -70,24 +70,18 @@ export default function MeetingData({ postData, userData }) {
             window.location.reload();
           }, 1000 * 60 * 10);
           let upcoming = meetings.filter((item) => {
-            return dayjs(item.time_start.seconds * 1000).isAfter(
-              dayjs(),
-              "day"
-            );
+            return dayjs(item.time_start.toDate()).isAfter(dayjs(), "day");
           });
 
           setCurrentMeetingData(current);
           const tomorrow = meetings.filter(tomorrowItemsFilter);
           setTomorrowMeetingData(tomorrow);
+
           // remove tomorrow items from upcoming
-          upcoming.forEach((item) => {
-            tomorrow.forEach((tomorrowItem) => {
-              if (item.id === tomorrowItem.id) {
-                upcoming.splice(upcoming.indexOf(item), 1);
-              }
-            });
+          const filteredUpcoming = upcoming.filter((item) => {
+            return !tomorrow.includes(item);
           });
-          setUpcomingMeetingData(upcoming);
+          setUpcomingMeetingData(filteredUpcoming);
         }
       );
     })();
@@ -112,7 +106,7 @@ export default function MeetingData({ postData, userData }) {
   const cardTemplate = (item) => {
     return (
       <Card
-        className={getColorForNextDay(item.time_start.seconds * 1000)}
+        className={getColorForNextDay(item.time_start.toDate())}
         style={{ margin: "5px", borderRadius: "10px" }}
         key={item.id}
       >
@@ -124,8 +118,31 @@ export default function MeetingData({ postData, userData }) {
           <CardTitle tag="h6">{item.remarks}</CardTitle>
           <CardSubtitle tag="h5">
             <span style={{ color: "#4DC918" }}>
-              Today - {dayjs(item.time_start.seconds * 1000).format("hh:mm A")}{" "}
-              -{" "}
+              Today - {dayjs(item.time_start.toDate()).format("hh:mm A")} -{" "}
+            </span>
+            {item.status}
+          </CardSubtitle>
+        </CardBody>
+      </Card>
+    );
+  };
+  const cardTemplateTomorrow = (item) => {
+    return (
+      <Card
+        className={getColorForNextDay(item.time_start.toDate())}
+        style={{ margin: "5px", borderRadius: "10px" }}
+        key={item.id}
+      >
+        <CardHeader tag="h3">
+          {item.description}
+          <span style={{ color: "orange" }}> at {item.venue}</span>
+        </CardHeader>
+        <CardBody>
+          <CardTitle tag="h6">{item.remarks}</CardTitle>
+          <CardSubtitle tag="h5">
+            <span style={{ color: "#4DC918" }}>
+              {dayjs(item.time_start.toDate()).format("DD/MM/YYYY")}{" "}
+              {dayjs(item.time_start.toDate()).format("hh:mm A")} -{" "}
             </span>
             {item.status}
           </CardSubtitle>
@@ -139,7 +156,7 @@ export default function MeetingData({ postData, userData }) {
         style={{
           borderRadius: "10px",
         }}
-        className={getColorForNextDay(item.time_start.seconds * 1000)}
+        className={getColorForNextDay(item.time_start.toDate())}
         // color={getColorForNextDay(item.time_start.seconds * 1000)}
         key={item.id}
       >
@@ -151,8 +168,8 @@ export default function MeetingData({ postData, userData }) {
           <CardTitle tag="h6">{item.remarks}</CardTitle>
           <CardSubtitle tag="h5">
             <span style={{ color: "#1B0AFF" }}>
-              {dayjs(item.time_start.seconds * 1000).format("DD/MM/YYYY")}{" "}
-              {dayjs(item.time_start.seconds * 1000).format("hh:mm A")} -{" "}
+              {dayjs(item.time_start.toDate()).format("DD/MM/YYYY")}{" "}
+              {dayjs(item.time_start.toDate()).format("hh:mm A")} -{" "}
             </span>
             {item.status}
           </CardSubtitle>
@@ -163,7 +180,7 @@ export default function MeetingData({ postData, userData }) {
 
   var settings = {
     arrows: false,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplaySpeed: 2000,
     vertical: true,
@@ -172,7 +189,7 @@ export default function MeetingData({ postData, userData }) {
   };
 
   const tomorrowItemsFilter = (item) => {
-    const datevar = item.time_start.seconds * 1000;
+    const datevar = item.time_start.toDate();
     if (dayjs().add(1, "day").day() === 0) {
       // if next day sunday
       if (dayjs().add(2, "day").isSame(dayjs(datevar), "day")) {
@@ -204,11 +221,12 @@ export default function MeetingData({ postData, userData }) {
   };
   const isSliderRequired = () => {
     const total = currentMeetingData.length + tomorrowMeetingData.length;
-    if (total > 4) {
+    if (total > 3) {
       return true;
     }
     return false;
   };
+
   return (
     <>
       <Head>
@@ -247,13 +265,13 @@ export default function MeetingData({ postData, userData }) {
                 {isSliderRequired() && (
                   <Slider {...settings}>
                     {currentMeetingData.map(cardTemplate)}
-                    {tomorrowMeetingData.map(cardTemplate)}
+                    {tomorrowMeetingData.map(cardTemplateTomorrow)}
                   </Slider>
                 )}
                 {!isSliderRequired() && (
                   <div>
                     {currentMeetingData.map(cardTemplate)}
-                    {tomorrowMeetingData.map(cardTemplate)}
+                    {tomorrowMeetingData.map(cardTemplateTomorrow)}
                   </div>
                 )}
               </Col>
