@@ -305,7 +305,7 @@ export default function MeetingData({ postData, userData }) {
             </>
           )}
       </Row>
-      {currentMeetingData.length === 0 && (
+      {currentMeetingData.length === 0 && upcomingMeetingData.length === 0 && (
         <Alert color="primary" className={taskCss.centerText}>
           <h5>
             <BiStopwatch size={30} /> No Scheduled Events for Today
