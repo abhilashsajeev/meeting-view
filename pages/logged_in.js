@@ -16,7 +16,8 @@ const LoggedIn = () => {
     if (!loading && !authUser) Router.push("/login");
 
     (async () => {
-      const usersData = await getAllUsersData();
+      console.log("authUser", authUser);
+      const usersData = await getAllUsersData(authUser?.email);
       setUsers(usersData);
     })();
   }, [authUser, loading]);

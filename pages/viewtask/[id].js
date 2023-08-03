@@ -296,7 +296,7 @@ export default function MeetingData({ postData, userData }) {
         {currentMeetingData.length === 0 &&
           upcomingMeetingData.length !== 0 && (
             <>
-              <Col xs={5}>
+              <Col xs={12}>
                 <h4>Upcoming Meetings</h4>
                 <Slider {...settings}>
                   {upcomingMeetingData.map(cardTemplateUpcoming)}
