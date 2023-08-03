@@ -227,6 +227,62 @@ export default function MeetingData({ postData, userData }) {
     return false;
   };
 
+  console.log("currentMeetingData", currentMeetingData);
+  console.log("tomorrowMeetingData", tomorrowMeetingData);
+
+  const checkWhatToShow = () => {
+    if (
+      currentMeetingData.length !== 0 &&
+      tomorrowMeetingData.length !== 0 &&
+      upcomingMeetingData.length !== 0
+    ) {
+      return 1; // all 3
+    }
+    if (
+      currentMeetingData.length !== 0 &&
+      tomorrowMeetingData.length !== 0 &&
+      upcomingMeetingData.length === 0
+    ) {
+      return 3; // current and tomorrow
+    }
+    if (
+      currentMeetingData.length !== 0 &&
+      tomorrowMeetingData.length === 0 &&
+      upcomingMeetingData.length !== 0
+    ) {
+      return 1; // current and upcoming
+    }
+    if (
+      currentMeetingData.length === 0 &&
+      tomorrowMeetingData.length !== 0 &&
+      upcomingMeetingData.length !== 0
+    ) {
+      return 1; // tomorrow and upcoming
+    }
+    if (
+      currentMeetingData.length !== 0 &&
+      tomorrowMeetingData.length === 0 &&
+      upcomingMeetingData.length === 0
+    ) {
+      return 2; // current full screen
+    }
+    if (
+      currentMeetingData.length === 0 &&
+      tomorrowMeetingData.length !== 0 &&
+      upcomingMeetingData.length === 0
+    ) {
+      return 2; // tomorrow full screen
+    }
+    if (
+      currentMeetingData.length === 0 &&
+      tomorrowMeetingData.length === 0 &&
+      upcomingMeetingData.length !== 0
+    ) {
+      return 3; // upcoming full screen
+    }
+    return 0;
+  };
+
   return (
     <>
       <Head>
@@ -258,54 +314,60 @@ export default function MeetingData({ postData, userData }) {
           paddingLeft: "2px",
         }}
       >
-        {currentMeetingData.length !== 0 &&
-          upcomingMeetingData.length !== 0 && (
-            <>
-              <Col xs={7} style={{ background: "white", paddingRight: "0px" }}>
-                {isSliderRequired() && (
-                  <Slider {...settings}>
-                    {currentMeetingData.map(cardTemplate)}
-                    {tomorrowMeetingData.map(cardTemplateTomorrow)}
-                  </Slider>
-                )}
-                {!isSliderRequired() && (
-                  <div>
-                    {currentMeetingData.map(cardTemplate)}
-                    {tomorrowMeetingData.map(cardTemplateTomorrow)}
-                  </div>
-                )}
-              </Col>
-              <Col xs={5} style={{ background: "white", paddingLeft: "0px" }}>
-                <Slider {...settings}>
-                  {upcomingMeetingData.map(cardTemplateUpcoming)}
-                </Slider>
-              </Col>
-            </>
-          )}
-        {currentMeetingData.length !== 0 &&
-          upcomingMeetingData.length === 0 && (
-            <>
-              <Col xs={12}>
-                <h4>Todays Meetings</h4>
+        {checkWhatToShow() === 1 && (
+          <>
+            <Col xs={7} style={{ background: "white", paddingRight: "0px" }}>
+              {isSliderRequired() && (
                 <Slider {...settings}>
                   {currentMeetingData.map(cardTemplate)}
+                  {tomorrowMeetingData.map(cardTemplateTomorrow)}
                 </Slider>
-              </Col>
-            </>
-          )}
-        {currentMeetingData.length === 0 &&
-          upcomingMeetingData.length !== 0 && (
-            <>
-              <Col xs={12}>
-                <h4>Upcoming Meetings</h4>
+              )}
+              {!isSliderRequired() && (
+                <div>
+                  {currentMeetingData.map(cardTemplate)}
+                  {tomorrowMeetingData.map(cardTemplateTomorrow)}
+                </div>
+              )}
+            </Col>
+            <Col xs={5} style={{ background: "white", paddingLeft: "0px" }}>
+              <Slider {...settings}>
+                {upcomingMeetingData.map(cardTemplateUpcoming)}
+              </Slider>
+            </Col>
+          </>
+        )}
+        {checkWhatToShow() === 2 && (
+          <>
+            <Col xs={12}>
+              <h4>Todays/Tomorrow's Meetings</h4>
+              {isSliderRequired() && (
                 <Slider {...settings}>
-                  {upcomingMeetingData.map(cardTemplateUpcoming)}
+                  {currentMeetingData.map(cardTemplate)}
+                  {tomorrowMeetingData.map(cardTemplateTomorrow)}
                 </Slider>
-              </Col>
-            </>
-          )}
+              )}
+              {!isSliderRequired() && (
+                <div>
+                  {currentMeetingData.map(cardTemplate)}
+                  {tomorrowMeetingData.map(cardTemplateTomorrow)}
+                </div>
+              )}
+            </Col>
+          </>
+        )}
+        {checkWhatToShow() === 3 && (
+          <>
+            <Col xs={12}>
+              <h4>Upcoming Meetings</h4>
+              <Slider {...settings}>
+                {upcomingMeetingData.map(cardTemplateUpcoming)}
+              </Slider>
+            </Col>
+          </>
+        )}
       </Row>
-      {currentMeetingData.length === 0 && upcomingMeetingData.length === 0 && (
+      {checkWhatToShow() === 0 && (
         <Alert color="primary" className={taskCss.centerText}>
           <h5>
             <BiStopwatch size={30} /> No Scheduled Events for Today

@@ -22,6 +22,11 @@ const LoggedIn = () => {
     })();
   }, [authUser, loading]);
 
+  const doLogout = async () => {
+    await signOut();
+    Router.push("/login");
+  };
+
   return (
     <>
       <Head>
@@ -54,7 +59,7 @@ const LoggedIn = () => {
 
             <Row>
               <Col>
-                <Button onClick={signOut}>Sign out</Button>
+                <Button onClick={doLogout}>Sign out</Button>
               </Col>
             </Row>
           </>
