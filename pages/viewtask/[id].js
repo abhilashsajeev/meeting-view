@@ -340,7 +340,7 @@ export default function MeetingData({ postData, userData }) {
         {checkWhatToShow() === 2 && (
           <>
             <Col xs={12}>
-              <h4>Todays/Tomorrow's Meetings</h4>
+              <h4>Todays/Tomorrows Meetings</h4>
               {isSliderRequired() && (
                 <Slider {...settings}>
                   {currentMeetingData.map(cardTemplate)}
